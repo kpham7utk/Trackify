@@ -21,7 +21,7 @@ Edit the `mvnw.cmd` file in the project root and modify the following line:
 
 ## Testing Backend Endpoints with curl
 
-Due to the default security configuration of Spring Boot Security, your backend endpoints are likely protected with basic authentication. To test them using `curl`, you will need to provide the generated username and password.
+Due to the default security configuration of Spring Boot Security, the backend endpoints are protected with basic authentication. To test them using `curl`, you will need to provide the generated username and password.
 
 **1. Find the Generated Password:**
 
