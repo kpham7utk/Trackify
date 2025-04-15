@@ -4,9 +4,13 @@ import com.trackify.model.Task;
 import com.trackify.repository.TaskRepository;
 import org.springframework.web.bind.annotation.*;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -24,6 +28,8 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
+        System.out.println("Received POST to /api/tasks");
+        System.out.println("Request body: " + task);
         return taskRepo.save(task);
     }
 
@@ -46,5 +52,11 @@ public class TaskController {
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id) {
         taskRepo.deleteById(id);
+    }
+
+    @GetMapping("/test")
+    public String testRoute() {
+        System.out.println("Hit /api/tasks/test");
+        return "Hello from backend!";
     }
 }
