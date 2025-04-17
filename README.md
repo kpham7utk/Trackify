@@ -1,6 +1,55 @@
 # Trackify
  Full stack web app that allows users to track tasks
 
+## Getting Started
+
+This project consists of a Spring Boot backend and a React frontend. To run the application locally, follow these steps:
+
+### Prerequisites
+
+* **Java Development Kit (JDK):** Make sure you have a JDK installed (version 17 or higher recommended).
+* **Maven:** If you want to build the backend manually (though the Maven Wrapper is included), ensure Maven is installed.
+* **Node.js and npm (or yarn):** Required for running the React frontend. You can download them from [https://nodejs.org/](https://nodejs.org/).
+
+### Running the Backend
+
+The backend is a Spring Boot application and includes the Maven Wrapper (`mvnw` for macOS/Linux, `mvnw.cmd` for Windows).
+
+1.  **Navigate to the backend directory:**
+  ```bash
+  cd trackify-backend
+  ```
+
+2.  **Run the Spring Boot application using the Maven Wrapper:**
+  ```bash
+  ./mvnw spring-boot:run  # For macOS/Linux
+  .\mvnw.cmd spring-boot:run  # For Windows
+  ```
+  This will start the backend server, usually on port `8080`.
+
+  **Note for Windows users with spaces in their username:** You might need to apply the fix mentioned later in this README to ensure the Maven Wrapper runs correctly.
+
+### Running the Frontend
+
+The frontend is built using React and managed with npm (or yarn).
+
+1.  **Navigate to the frontend directory:**
+  ```bash
+  cd trackify-frontend
+  ```
+
+2.  **Install dependencies:**
+  ```bash
+  npm install
+  ```
+
+3.  **Start the React development server:**
+  ```bash
+  npm start 
+  ```
+  This will usually start the frontend in your browser at `http://localhost:3000`.
+
+
 ## Potential Windows Setup Issue
 
 Users on Windows with spaces in their user profile directory (e.g., `C:\Users\John Doe\...`) might encounter an error when running the Maven Wrapper (`./mvnw` or `.\mvnw.cmd`) that says "Cannot start maven from wrapper".
