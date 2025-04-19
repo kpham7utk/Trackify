@@ -1,5 +1,21 @@
 # Trackify
- Full stack web app that allows users to track tasks
+
+Trackify is a task management application built as a full-stack project with a Spring Boot backend and a React frontend. It allows users to effectively track their tasks, set deadlines, and manage their productivity.
+
+**Current Features:**
+
+* Create, read, update, and delete tasks (CRUD operations).
+* Clear and intuitive user interface.
+* RESTful API for backend communication.
+
+**Potential Future Features:**
+
+* User authentication and authorization.
+* Task prioritization and categories.
+* Due date and reminder functionality.
+* Collaboration features for shared task lists.
+
+Trackify is an ongoing project aimed at providing a useful and well-architected solution for task management, while also serving as a learning platform for modern web development technologies.
 
 ## Getting Started
 
