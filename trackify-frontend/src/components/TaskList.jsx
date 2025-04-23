@@ -7,6 +7,8 @@ const TaskList = () => {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [filter, setFilter] = useState('all'); // 'all', 'completed', 'incomplete'
   const [editForm, setEditForm] = useState({ title: '', description: '', dueDate: '' });
+  const [sortBy, setSortBy] = useState('dueDate');
+  const [sortOrder, setSortOrder] = useState('asc');
 
   useEffect(() => {
     fetchTasks();
@@ -73,6 +75,12 @@ const TaskList = () => {
     return true;
   });
 
+  const sortedTasks = [...filteredTasks].sort((a, b) => {
+    const dateA = new Date(sortBy === 'dueDate' ? a.dueDate : a.createdAt);
+    const dateB = new Date(sortBy === 'dueDate' ? b.dueDate : b.createdAt);
+    return sortOrder === 'asc' ? dateA - dateB : dateB - dateA;
+  });
+
   return (
     <div>
       <h1>Trackify</h1>
@@ -100,11 +108,32 @@ const TaskList = () => {
         ))}
       </div>
 
+      <div style={{ marginBottom: '1rem' }}>
+        <label>Sort by: </label>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value="dueDate">Due Date</option>
+          <option value="createdAt">Created At</option>
+        </select>
+
+        <button
+          onClick={() => setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'))}
+          style={{
+            marginLeft: '1rem',
+            padding: '0.3rem 0.6rem',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          {sortOrder === 'asc' ? '⬆️ Ascending' : '⬇️ Descending'}
+        </button>
+      </div>
+
       {filteredTasks.length === 0 ? (
         <p>No tasks available.</p>
       ) : (
         <ul>
-          {filteredTasks.map(task => (
+          {sortedTasks.map(task => (
             <li key={task.id}>
               {editingTaskId === task.id ? (
                 <>
@@ -133,9 +162,16 @@ const TaskList = () => {
                     checked={task.completed}
                     onChange={() => handleToggleComplete(task)}
                   />
-                  <strong style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
-                    {task.title}
-                  </strong> — {task.description}
+                  <div>
+                    <strong style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>
+                      {task.title}
+                    </strong> — {task.description}
+                    <div style={{ fontSize: '0.85rem', color: '#666' }}>
+                      {sortBy === 'dueDate'
+                        ? `Due: ${new Date(task.dueDate).toLocaleString()}`
+                        : `Created: ${new Date(task.createdAt).toLocaleString()}`}
+                    </div>
+                  </div>
                   <span style={{ marginLeft: '1rem' }}>
                     <button onClick={() => startEditing(task)} style={{ marginRight: '0.5rem' }}>
                       🖉 Edit

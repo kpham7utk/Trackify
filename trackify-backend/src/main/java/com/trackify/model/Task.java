@@ -22,11 +22,21 @@ public class Task {
     private LocalDateTime createdAt;
     private LocalDateTime dueDate;
 
-    public Task(String title, String description, LocalDateTime dueDate) {
+    private String priority; // e.g., "Low", "Medium", "High"
+
+    public Task(String title, String description, LocalDateTime dueDate, String priority) {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
+        this.priority = priority;
         this.completed = false;
         this.createdAt = LocalDateTime.now();
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = LocalDateTime.now();
+        }
     }
 }
