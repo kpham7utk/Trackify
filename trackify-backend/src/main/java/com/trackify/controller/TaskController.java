@@ -1,7 +1,8 @@
 package com.trackify.controller;
 
 import com.trackify.model.Task;
-import com.trackify.repository.TaskRepository;
+import com.trackify.service.TaskService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
@@ -15,43 +16,38 @@ import java.util.Optional;
 @RequestMapping("/api/tasks")
 public class TaskController {
 
-    private final TaskRepository taskRepo;
+    private final TaskService taskService;
 
-    public TaskController(TaskRepository taskRepo) {
-        this.taskRepo = taskRepo;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
     }
 
     @GetMapping
     public List<Task> getAllTasks() {
-        return taskRepo.findAll();
+        return taskService.getAllTasks();
     }
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
         System.out.println("Received POST to /api/tasks");
         System.out.println("Request body: " + task);
-        return taskRepo.save(task);
+        return taskService.createTask(task);
     }
 
     @GetMapping("/{id}")
     public Optional<Task> getTaskById(@PathVariable Long id) {
-        return taskRepo.findById(id);
+        return taskService.getTaskById(id);
     }
 
     @PutMapping("/{id}")
     public Task updateTask(@PathVariable Long id, @RequestBody Task updatedTask) {
-        return taskRepo.findById(id).map(task -> {
-            task.setTitle(updatedTask.getTitle());
-            task.setDescription(updatedTask.getDescription());
-            task.setDueDate(updatedTask.getDueDate());
-            task.setCompleted(updatedTask.isCompleted());
-            return taskRepo.save(task);
-        }).orElseThrow(() -> new RuntimeException("Task not found"));
+        return taskService.updateTask(id, updatedTask);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id) {
-        taskRepo.deleteById(id);
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+        taskService.deleteTask(id);
+        return ResponseEntity.noContent().build();  // HTTP 204
     }
 
     @GetMapping("/test")

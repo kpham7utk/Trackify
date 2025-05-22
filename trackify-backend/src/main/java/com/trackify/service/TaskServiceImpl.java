@@ -42,11 +42,34 @@ public class TaskServiceImpl implements TaskService {
     public Task updateTask(Long id, Task updatedTask) {
         return taskRepository.findById(id)
             .map(existingTask -> {
-                existingTask.setTitle(updatedTask.getTitle());
-                existingTask.setDescription(updatedTask.getDescription());
-                existingTask.setDueDate(updatedTask.getDueDate());
-                existingTask.setCompleted(updatedTask.isCompleted());
-                return taskRepository.save(existingTask);
+                boolean hasChanges = false;
+
+                if (!existingTask.getTitle().equals(updatedTask.getTitle())) {
+                    existingTask.setTitle(updatedTask.getTitle());
+                    hasChanges = true;
+                }
+
+                if (!existingTask.getDescription().equals(updatedTask.getDescription())) {
+                    existingTask.setDescription(updatedTask.getDescription());
+                    hasChanges = true;
+                }
+
+                if (!existingTask.getDueDate().equals(updatedTask.getDueDate())) {
+                    existingTask.setDueDate(updatedTask.getDueDate());
+                    hasChanges = true;
+                }
+
+                if (!existingTask.getPriority().equals(updatedTask.getPriority())) {
+                    existingTask.setPriority(updatedTask.getPriority());
+                    hasChanges = true;
+                }
+
+                if (existingTask.isCompleted() != updatedTask.isCompleted()) {
+                    existingTask.setCompleted(updatedTask.isCompleted());
+                    hasChanges = true;
+                }
+
+                return hasChanges ? taskRepository.save(existingTask) : existingTask;
             })
             .orElseThrow(() -> new RuntimeException("Task not found with id " + id));
     }
