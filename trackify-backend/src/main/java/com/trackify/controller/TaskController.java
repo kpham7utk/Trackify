@@ -29,7 +29,7 @@ public class TaskController {
 
     @PostMapping
     public Task createTask(@RequestBody Task task) {
-        System.out.println("Received POST to /api/tasks");
+        log.info("Received POST to /api/tasks: {}", task);
         System.out.println("Request body: " + task);
         return taskService.createTask(task);
     }
